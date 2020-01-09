@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
 
+app.set('view engine', 'ejs');
+app.use(express.static('public'))
+
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
@@ -9,7 +12,16 @@ const db = low(adapter);
 
 db.defaults({ links: [], user: [], count: 1000 }).write();
 
-app.get('/save/', function (req, res) {
+app.get('/',function(req,res) {
+    var links = db.get('links').value();
+    res.render('main', {links});
+})
+
+app.get('/add',function(req,res) {
+    res.render('add');
+})
+
+app.get('/save', function (req, res) {
     var link = req.query.link;
     var title = req.query.title;
 

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Small Drive - Links that you saved</title>
+
+  <style>
+    #demo {
+      margin: 20px auto;
+      max-width: 960px;
+      padding-bottom: 20px;
+    }
+
+    #demo h1 {
+      font-size: 2.4rem;
+      line-height: 3.2rem;
+      letter-spacing: 0;
+      font-weight: 300;
+      color: #212121;
+      text-transform: inherit;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    #demo img {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    #demo h2 {
+      font-size: 1.5rem;
+      line-height: 2.8rem;
+      letter-spacing: 0.01rem;
+      font-weight: 400;
+      color: #212121;
+      text-align: center;
+    }
+
+    body {
+      background-color: #f5f5f5 !important;
+    }
+
+    table {
+      background-color: #fff;
+    }
+  </style>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <div class="container" id="demo">
+    <h1><a href="/">Small Drive</a></h1>
+    <h2>Chrome extension that help you <a href="/add">save link</a> and <a href="/links">get it</a> through android app.
+    </h2>
+  </div>
+
+  <%if(links.length > 0) {%>
+  <table class="container table table-borderless table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Links</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%links.forEach(p => {%>
+      <tr>
+        <th scope="row"><%=p.id%></th>
+        <td><%=p.title%></td>
+        <td><a href="<%=p.link%>" target="_blank"><%=p.link.substring(0,70) + "..."%></a></td>
+        <td><a href="#" id="<%=p.id%>" onclick="Send('/links/remove/<%=p.id%>','<%=p.id%>')">Delete</a></td>
+      </tr>
+      <%})%>
+    </tbody>
+  </table>
+  <%}else {%>
+  <div class="container" id="demo">
+    <img src="/images/empty.png" style="width: 200px;">
+    <h1>Nothing saved yet.</h1>
+    <h2>Click to <strong>save link</strong> above or <strong>use extension</strong> to create a new link.</h2>
+  </div>
+  <%}%>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+    integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function Send(path, id) {
+      $.ajax({
+        url: path,
+        success: function (data) {
+          $('#' + id).parents('tr').remove();
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

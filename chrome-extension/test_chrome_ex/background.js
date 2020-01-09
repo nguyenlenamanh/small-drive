@@ -13,8 +13,8 @@ chrome.browserAction.onClicked.addListener(function (tab) {
         xhr.send();
 
         xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                alert('Saved');
+            if (this.readyState == 4 && this.status != 200) {
+                alert('Error while saving.');
             }
         };
     });
