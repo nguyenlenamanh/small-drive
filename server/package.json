@@ -9,6 +9,7 @@
   "author": "nam anh",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.2",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "lowdb": "^1.0.0"

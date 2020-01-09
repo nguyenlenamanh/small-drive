@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 
+const axios = require('axios');
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 
@@ -12,18 +14,24 @@ const db = low(adapter);
 
 db.defaults({ links: [], user: [], count: 1000 }).write();
 
-app.get('/',function(req,res) {
+app.get('/', function (req, res) {
     var links = db.get('links').value();
-    res.render('main', {links});
+    res.render('main', { links });
 })
 
-app.get('/add',function(req,res) {
+app.get('/add', function (req, res) {
     res.render('add');
 })
 
-app.get('/save', function (req, res) {
+app.get('/save', async function (req, res) {
     var link = req.query.link;
     var title = req.query.title;
+
+    if(!link) res.sendStatus(400).end();
+
+    if (!title) {
+        title = await GetTitle(link);
+    }
 
     var count = db.get('count').value();
 
@@ -37,6 +45,11 @@ app.get('/save', function (req, res) {
 
     res.sendStatus(200).end();
 });
+
+async function GetTitle(link) {
+    let response = await axios.get('https://textance.herokuapp.com/rest/title/' + link);
+    return response.data;
+}
 
 app.get('/links', function (req, res) {
     var links = db.get('links').value();
