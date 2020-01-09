@@ -3,7 +3,7 @@ Small drive is a solution for saving any link in computer and getting it in andr
 
 # usage
 Homepage: https://small-drive.herokuapp.com/ \
-To save link: https://small-drive.herokuapp.com/save?link={your link}&title={title} \
+To save link: https://small-drive.herokuapp.com/save?link={your_link}&title={title} \
 To get links: https://small-drive.herokuapp.com/links \
 To remove link: https://small-drive.herokuapp.com/links/remove/{id} \
 
