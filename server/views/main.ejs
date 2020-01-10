@@ -7,6 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Small Drive - Links that you saved</title>
 
+  <link rel="icon" href="/images/icon.png">
+
   <style>
     #demo {
       margin: 20px auto;
@@ -42,6 +44,9 @@
 
     body {
       background-color: #f5f5f5 !important;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     table {
@@ -49,12 +54,14 @@
     }
 
     #footer {
-      position: absolute;
-      bottom: 0;
       width: 100%;
       padding: 20px;
       color: #212121;
       text-align: center;
+    }
+
+    #main {
+      flex: 1;
     }
   </style>
 
@@ -63,42 +70,44 @@
 </head>
 
 <body>
-
-  <div class="container" id="demo">
-    <h1><a href="/">Small Drive</a></h1>
-    <h2>Chrome extension that help you <a href="/add">save link</a> and <a href="/links">get it</a> through android app.
-    </h2>
+  <div id="main" class="container">
+    <div id="demo">
+      <h1><a href="/">Small Drive</a></h1>
+      <h2>Chrome extension that helps you <a href="/add">save link</a> and <a href="/links">get it</a> through android
+        app.
+      </h2>
+    </div>
+  
+    <%if(links.length > 0) {%>
+    <table class="table table-borderless table-hover table-responsive-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Links</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%links.forEach(p => {%>
+        <tr>
+          <th scope="row"><%=p.id%></th>
+          <td><%=p.title%></td>
+          <td><a href="<%=p.link%>" target="_blank"><%=p.link.substring(0,70) + "..."%></a></td>
+          <td><a href="#" id="<%=p.id%>" onclick="Send('/links/remove/<%=p.id%>','<%=p.id%>')">Delete</a></td>
+        </tr>
+        <%})%>
+      </tbody>
+    </table>
+    <%}else {%>
+    <div class="container" id="demo">
+      <img src="/images/empty.png" style="width: 200px;">
+      <h1>Nothing saved yet.</h1>
+      <h2>Click to <strong>save link</strong> above or <strong>use extension</strong> to create a new link.</h2>
+    </div>
+    <%}%>
   </div>
-
-  <%if(links.length > 0) {%>
-  <table class="container table table-borderless table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Title</th>
-        <th scope="col">Links</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%links.forEach(p => {%>
-      <tr>
-        <th scope="row"><%=p.id%></th>
-        <td><%=p.title%></td>
-        <td><a href="<%=p.link%>" target="_blank"><%=p.link.substring(0,70) + "..."%></a></td>
-        <td><a href="#" id="<%=p.id%>" onclick="Send('/links/remove/<%=p.id%>','<%=p.id%>')">Delete</a></td>
-      </tr>
-      <%})%>
-    </tbody>
-  </table>
-  <%}else {%>
-  <div class="container" id="demo">
-    <img src="/images/empty.png" style="width: 200px;">
-    <h1>Nothing saved yet.</h1>
-    <h2>Click to <strong>save link</strong> above or <strong>use extension</strong> to create a new link.</h2>
-  </div>
-  <%}%>
-
+  
   <div id="footer">
     <hr/>
     <a href="https://github.com/nguyenlenamanh/small-drive">Nguyễn Lê Nam Anh @ 2020</a> 
